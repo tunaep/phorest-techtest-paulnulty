@@ -19,7 +19,7 @@ public class FruitMachineService {
    }
 
    public PlayResult play() {
-      SpinResult spinResult = fruitMachine.spin();
+      SpinResult spinResult = fruitMachine.spin(4);
       List<Colours> slots = spinResult.slots();
 
       WinStatus winStatus = determineWinStatus(slots);

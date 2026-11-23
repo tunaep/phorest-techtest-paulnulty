@@ -31,7 +31,7 @@ public class FruitMachineServiceTests {
    @DisplayName("Play Returns No Win Result If All Slots Are Different")
    void playReturnsNoWinResultIfAllSlotsAreDifferent() {
       // Arrange
-      when(fruitMachine.spin()).thenReturn(new SpinResult(List.of(Colours.BLACK, Colours.WHITE, Colours.GREEN, Colours.YELLOW)));
+      when(fruitMachine.spin(4)).thenReturn(new SpinResult(List.of(Colours.BLACK, Colours.WHITE, Colours.GREEN, Colours.YELLOW)));
 
       // Act
       PlayResult playResult = fruitMachineService.play();
@@ -46,7 +46,7 @@ public class FruitMachineServiceTests {
    @DisplayName("Play Returns Jackpot Result If All Slots Match")
    void playReturnsJackpotResultIfAllSlotsMatch() {
       // Arrange
-      when(fruitMachine.spin()).thenReturn(new SpinResult(List.of(Colours.BLACK, Colours.BLACK, Colours.BLACK, Colours.BLACK)));
+      when(fruitMachine.spin(4)).thenReturn(new SpinResult(List.of(Colours.BLACK, Colours.BLACK, Colours.BLACK, Colours.BLACK)));
 
       // Act
       PlayResult playResult = fruitMachineService.play();
