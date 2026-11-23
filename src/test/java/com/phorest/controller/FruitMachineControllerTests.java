@@ -5,10 +5,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -19,6 +22,9 @@ public class FruitMachineControllerTests {
    @Autowired
    private MockMvc mockMvc;
 
+   @MockitoBean
+   private FruitMachineController fruitMachineController;
+
    @Test
    @DisplayName("Play Returns Valid Response")
    void playReturnsValidResponse() throws Exception {
@@ -27,6 +33,8 @@ public class FruitMachineControllerTests {
             List.of("BLACK", "WHITE", "GREEN", "YELLOW"),
             "NO_WIN"
       );
+
+      when(fruitMachineController.play()).thenReturn(ResponseEntity.ok(expectedResponse));
 
       // Act
       // Assert
@@ -38,6 +46,20 @@ public class FruitMachineControllerTests {
             .andExpect(jsonPath("$.slots[2]").value("GREEN"))
             .andExpect(jsonPath("$.slots[3]").value("YELLOW"))
             .andExpect(jsonPath("$.result").value("NO_WIN"));
+   }
+
+   @Test
+   @DisplayName("Default Error Message Is Received If Something Goes Wrong")
+   void defaultErrorMessageIsReceivedIfSomethingGoesWrong() throws Exception {
+      // Arrange
+      when(fruitMachineController.play()).thenThrow(new RuntimeException("Something went wrong"));
+
+      // Act
+      // Assert
+      mockMvc.perform(post("/api/v1/fruit-machine/play"))
+            .andExpect(status().isInternalServerError())
+            .andExpect(jsonPath("$.message").value("An unexpected error occurred"))
+            .andExpect(jsonPath("$.timestamp").exists());
    }
 
 
