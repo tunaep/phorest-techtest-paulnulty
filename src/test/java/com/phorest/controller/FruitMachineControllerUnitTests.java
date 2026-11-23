@@ -26,8 +26,8 @@ public class FruitMachineControllerUnitTests {
    private FruitMachineController fruitMachineController;
 
    @Test
-   @DisplayName("Play Returns Valid Response")
-   void playReturnsValidResponse() throws Exception {
+   @DisplayName("Play Returns Valid Response If No Win")
+   void playReturnsValidResponseIfNoWin() throws Exception {
       // Arrange
       PlayResponse expectedResponse = new PlayResponse(
             List.of("BLACK", "WHITE", "GREEN", "YELLOW"),
@@ -47,6 +47,53 @@ public class FruitMachineControllerUnitTests {
             .andExpect(jsonPath("$.slots[3]").value("YELLOW"))
             .andExpect(jsonPath("$.result").value("NO_WIN"));
    }
+
+   @Test
+   @DisplayName("Play Returns Valid Response If Jackpot")
+   void playReturnsValidResponseIfJackpot() throws Exception {
+      // Arrange
+      PlayResponse expectedResponse = new PlayResponse(
+            List.of("BLACK", "BLACK", "BLACK", "BLACK"),
+            "JACKPOT"
+      );
+
+      when(fruitMachineController.play()).thenReturn(ResponseEntity.ok(expectedResponse));
+
+      // Act
+      // Assert
+      mockMvc.perform(post("/api/v1/fruit-machine/play"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.slots").isArray())
+            .andExpect(jsonPath("$.slots[0]").value("BLACK"))
+            .andExpect(jsonPath("$.slots[1]").value("BLACK"))
+            .andExpect(jsonPath("$.slots[2]").value("BLACK"))
+            .andExpect(jsonPath("$.slots[3]").value("BLACK"))
+            .andExpect(jsonPath("$.result").value("JACKPOT"));
+   }
+
+   @Test
+   @DisplayName("Play Returns Valid Response If Small Win")
+   void playReturnsValidResponseIfSmallWin() throws Exception {
+      // Arrange
+      PlayResponse expectedResponse = new PlayResponse(
+            List.of("BLACK", "BLACK", "WHITE", "YELLOW"),
+            "SMALL_WIN"
+      );
+
+      when(fruitMachineController.play()).thenReturn(ResponseEntity.ok(expectedResponse));
+
+      // Act
+      // Assert
+      mockMvc.perform(post("/api/v1/fruit-machine/play"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.slots").isArray())
+            .andExpect(jsonPath("$.slots[0]").value("BLACK"))
+            .andExpect(jsonPath("$.slots[1]").value("BLACK"))
+            .andExpect(jsonPath("$.slots[2]").value("WHITE"))
+            .andExpect(jsonPath("$.slots[3]").value("YELLOW"))
+            .andExpect(jsonPath("$.result").value("SMALL_WIN"));
+   }
+
 
    @Test
    @DisplayName("Default Error Message Is Received If Something Goes Wrong")

@@ -30,9 +30,20 @@ public class FruitMachineService {
       boolean allMatch = slots.stream().distinct().count() == 1;
       if (allMatch) {
          return WinStatus.JACKPOT;
-      } else {
-         return WinStatus.NO_WIN;
       }
+
+      boolean allDifferent = slots.stream().distinct().count() == slots.size();
+      if (allDifferent) {
+         return WinStatus.FULL_HOUSE;
+      }
+
+      for (int i = 0; i < slots.size() - 1; i++) {
+         if (slots.get(i) == slots.get(i + 1)) {
+            return WinStatus.SMALL_WIN;
+         }
+      }
+
+      return WinStatus.NO_WIN;
    }
 
 }

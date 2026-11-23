@@ -16,7 +16,6 @@ public enum Colours {
    }
 
    public static List<Colours> getRandomColours(int numSlots) {
-      // ThreadLocalRandom
       return ThreadLocalRandom.current()
             .ints(numSlots, 0, Colours.values().length)
             .mapToObj(i -> Colours.values()[i])

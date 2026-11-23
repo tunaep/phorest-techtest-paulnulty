@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-
 public class FruitMachineServiceTests {
 
    private FruitMachineService fruitMachineService;
@@ -28,10 +27,10 @@ public class FruitMachineServiceTests {
    }
 
    @Test
-   @DisplayName("Play Returns No Win Result If All Slots Are Different")
-   void playReturnsNoWinResultIfAllSlotsAreDifferent() {
+   @DisplayName("Play Returns No Win Result If Not Small Win, Full House, or Jackpot")
+   void playReturnsNoWinResultIfNotSmallWinFullHouseOrJackpot() {
       // Arrange
-      when(fruitMachine.spin(4)).thenReturn(new SpinResult(List.of(Colours.BLACK, Colours.WHITE, Colours.GREEN, Colours.YELLOW)));
+      when(fruitMachine.spin(4)).thenReturn(new SpinResult(List.of(Colours.BLACK, Colours.WHITE, Colours.GREEN, Colours.BLACK)));
 
       // Act
       PlayResult playResult = fruitMachineService.play();
@@ -39,7 +38,7 @@ public class FruitMachineServiceTests {
       // Assert
       assertEquals(WinStatus.NO_WIN, playResult.winStatus());
       assertEquals(4, playResult.slots().size());
-      assertEquals(List.of(Colours.BLACK, Colours.WHITE, Colours.GREEN, Colours.YELLOW), playResult.slots());
+      assertEquals(List.of(Colours.BLACK, Colours.WHITE, Colours.GREEN, Colours.BLACK), playResult.slots());
    }
 
    @Test
@@ -56,6 +55,39 @@ public class FruitMachineServiceTests {
       assertEquals(4, playResult.slots().size());
       assertEquals(List.of(Colours.BLACK, Colours.BLACK, Colours.BLACK, Colours.BLACK), playResult.slots());
    }
+
+   @Test
+   @DisplayName("Play Returns Full House Result If All Slots Are Different")
+   void playReturnsFullHouseResultIfAllSlotsAreDifferent() {
+      // Arrange
+      when(fruitMachine.spin(4)).thenReturn(new SpinResult(List.of(Colours.BLACK, Colours.WHITE, Colours.GREEN, Colours.YELLOW)));
+
+      // Act
+      PlayResult playResult = fruitMachineService.play();
+
+      // Assert
+      assertEquals(WinStatus.FULL_HOUSE, playResult.winStatus());
+      assertEquals(4, playResult.slots().size());
+      assertEquals(List.of(Colours.BLACK, Colours.WHITE, Colours.GREEN, Colours.YELLOW), playResult.slots());
+   }
+
+   @Test
+   @DisplayName("Play Returns Small Win Result If Two or More Adjacent Slots Match")
+   void playReturnsSmallWinResultIfTwoOrMoreAdjacentSlotsMatch() {
+      // Arrange
+      when(fruitMachine.spin(4)).thenReturn(new SpinResult(List.of(Colours.BLACK, Colours.BLACK, Colours.GREEN, Colours.YELLOW)));
+
+      // Act
+      PlayResult playResult = fruitMachineService.play();
+
+      // Assert
+      assertEquals(WinStatus.SMALL_WIN, playResult.winStatus());
+      assertEquals(4, playResult.slots().size());
+      assertEquals(List.of(Colours.BLACK, Colours.BLACK, Colours.GREEN, Colours.YELLOW), playResult.slots());
+   }
+
+
+   // Add float
 
 
 }
