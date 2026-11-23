@@ -6,7 +6,8 @@ public record PlayResponse(
       List<String> slots,
       String result,
       int currentFloat,
-      int freePlaysRemaining,
-      int spinCost
+      int spinsRemaining,
+      int spinCost,
+      int winnings
 ) {
 }

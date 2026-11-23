@@ -42,21 +42,21 @@ public class FruitMachineTests {
 
    private static Stream<Arguments> provideInvalidNumberOfSlots() {
       return Stream.of(
-            Arguments.of(new FruitMachineProperties(0, 100, 0, 5)),
-            Arguments.of(new FruitMachineProperties(-1, 100, 0, 5)),
-            Arguments.of(new FruitMachineProperties(-10, 100, 0, 5))
+            Arguments.of(new FruitMachineProperties(0, 100, 0, 5, 0)),
+            Arguments.of(new FruitMachineProperties(-1, 100, 0, 5, 0)),
+            Arguments.of(new FruitMachineProperties(-10, 100, 0, 5, 0))
       );
    }
 
    private static Stream<Arguments> provideValidNumberOfSlots() {
       return Stream.of(
-            Arguments.of(new FruitMachineProperties(1, 100, 0, 5)),
-            Arguments.of(new FruitMachineProperties(2, 100, 0, 5)),
-            Arguments.of(new FruitMachineProperties(3, 100, 0, 5)),
-            Arguments.of(new FruitMachineProperties(4, 100, 0, 5)),
-            Arguments.of(new FruitMachineProperties(5, 100, 0, 5)),
-            Arguments.of(new FruitMachineProperties(10, 100, 0, 5)),
-            Arguments.of(new FruitMachineProperties(100, 100, 0, 5))
+            Arguments.of(new FruitMachineProperties(1, 100, 0, 5, 0)),
+            Arguments.of(new FruitMachineProperties(2, 100, 0, 5, 0)),
+            Arguments.of(new FruitMachineProperties(3, 100, 0, 5, 0)),
+            Arguments.of(new FruitMachineProperties(4, 100, 0, 5, 0)),
+            Arguments.of(new FruitMachineProperties(5, 100, 0, 5, 0)),
+            Arguments.of(new FruitMachineProperties(10, 100, 0, 5, 0)),
+            Arguments.of(new FruitMachineProperties(100, 100, 0, 5, 0))
       );
    }
 

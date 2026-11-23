@@ -31,4 +31,7 @@ public class FruitMachine {
       this.properties = properties;
    }
 
+   public void removeCredits(int spinCost) {
+      properties.setSpinsRemaining(properties.getSpinsRemaining() - spinCost);
+   }
 }

@@ -12,8 +12,9 @@ public class PlayResponseMapper {
             playResult.slots().stream().map(Enum::name).toList(),
             playResult.winStatus().getStatus(),
             playResult.currentFloat(),
-            playResult.freePlaysRemaining(),
-            playResult.spinCost()
+            playResult.spinsRemaining(),
+            playResult.spinCost(),
+            playResult.winnings()
       );
    }
 

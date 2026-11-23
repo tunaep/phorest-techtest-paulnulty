@@ -6,19 +6,30 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class FruitMachineProperties {
    private int numSlots;
    private int currentFloat;
-   private int freePlays;
+   private int spinsRemaining;
    private int spinCost;
+   private int winnings;
 
    public FruitMachineProperties(
          int numSlots,
          int currentFloat,
-         int freePlays,
-         int spinCost
+         int spinsRemaining,
+         int spinCost,
+         int winnings
    ) {
       this.numSlots = numSlots;
       this.currentFloat = currentFloat;
-      this.freePlays = freePlays;
+      this.spinsRemaining = spinsRemaining;
       this.spinCost = spinCost;
+      this.winnings = winnings;
+   }
+
+   public int getWinnings() {
+      return winnings;
+   }
+
+   public void setWinnings(int winnings) {
+      this.winnings = winnings;
    }
 
    public int getNumSlots() {
@@ -37,12 +48,12 @@ public class FruitMachineProperties {
       this.currentFloat = currentFloat;
    }
 
-   public int getFreePlays() {
-      return freePlays;
+   public int getSpinsRemaining() {
+      return spinsRemaining;
    }
 
-   public void setFreePlays(int freePlays) {
-      this.freePlays = freePlays;
+   public void setSpinsRemaining(int spinsRemaining) {
+      this.spinsRemaining = spinsRemaining;
    }
 
    public int getSpinCost() {

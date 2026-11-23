@@ -6,7 +6,8 @@ public record PlayResult(
       List<Colours> slots,
       WinStatus winStatus,
       int currentFloat,
-      int freePlaysRemaining,
-      int spinCost
+      int spinsRemaining,
+      int spinCost,
+      int winnings
 ) {
 }

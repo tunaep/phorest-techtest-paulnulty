@@ -19,37 +19,61 @@ public class FruitMachineService {
    }
 
    public PlayResult play() {
+      if (fruitMachine.getProperties().getSpinsRemaining() - fruitMachine.getProperties().getSpinCost() < 0) {
+         throw new IllegalStateException("Insufficient spins remaining.");
+      }
+
       SpinResult spinResult = fruitMachine.spin();
       List<Colours> slots = spinResult.slots();
 
       WinStatus winStatus = determineWinStatus(slots);
 
-      // Update the float and free plays based on the win status
       updateFruitMachineStatus(winStatus);
 
       return new PlayResult(
             slots,
             winStatus,
             fruitMachine.getProperties().getCurrentFloat(),
-            fruitMachine.getProperties().getFreePlays(),
-            fruitMachine.getProperties().getSpinCost()
+            fruitMachine.getProperties().getSpinsRemaining(),
+            fruitMachine.getProperties().getSpinCost(),
+            fruitMachine.getProperties().getWinnings()
       );
    }
 
    private void updateFruitMachineStatus(WinStatus winStatus) {
       if (winStatus == WinStatus.NO_WIN) {
-         // Deduct the spin cost from the float
-         int newFloat = fruitMachine.getProperties().getCurrentFloat() - fruitMachine.getProperties().getSpinCost();
-         fruitMachine.getProperties().setCurrentFloat(newFloat);
+         // Deduct the spin cost from the spins remaining
+         fruitMachine.removeCredits(fruitMachine.getProperties().getSpinCost());
       } else if (winStatus == WinStatus.SMALL_WIN) {
-         // For a small win, we can decide to not deduct from the float or give a small payout
-         // Here, we will not deduct from the float
+         // Small win pays out x5 the spin cost. If not enough float to cover the payout, pay out the remaining float
+         // and give rest in free spins
+         int payout = fruitMachine.getProperties().getSpinCost() * 5;
+
+         if (payout > fruitMachine.getProperties().getCurrentFloat()) {
+            // If this is the case then we have to add the float to winnings, then pay the rest in free spins
+            int remainingPayout = payout - fruitMachine.getProperties().getCurrentFloat();
+            fruitMachine.getProperties().setWinnings(fruitMachine.getProperties().getWinnings() + fruitMachine.getProperties().getCurrentFloat());
+            fruitMachine.getProperties().setCurrentFloat(0);
+
+            // How much do we have to add to free spins?
+            fruitMachine.getProperties().setSpinsRemaining(fruitMachine.getProperties().getSpinsRemaining() + remainingPayout);
+         } else {
+            fruitMachine.getProperties().setCurrentFloat(fruitMachine.getProperties().getCurrentFloat() - payout);
+            fruitMachine.getProperties().setWinnings(fruitMachine.getProperties().getWinnings() + payout);
+         }
+
       } else if (winStatus == WinStatus.FULL_HOUSE) {
-         // For a full house, we can decide to give a larger payout
-         // Here, we will not deduct from the float
+         // TODO: Case where there's not enough float to cover payout is not covered.
+         // Full house pays out half the float.
+         int payout = fruitMachine.getProperties().getCurrentFloat() / 2;
+
+         fruitMachine.getProperties().setCurrentFloat(fruitMachine.getProperties().getCurrentFloat() - payout);
+         fruitMachine.getProperties().setWinnings(fruitMachine.getProperties().getWinnings() + payout);
       } else if (winStatus == WinStatus.JACKPOT) {
-         // For a jackpot, we can decide to give the largest payout
-         // Here, we will not deduct from the float
+         // Jackpot pays out the entire float. Free spins doesn't apply here
+         int payout = fruitMachine.getProperties().getCurrentFloat();
+         fruitMachine.getProperties().setCurrentFloat(0);
+         fruitMachine.getProperties().setWinnings(fruitMachine.getProperties().getWinnings() + payout);
       }
    }
 

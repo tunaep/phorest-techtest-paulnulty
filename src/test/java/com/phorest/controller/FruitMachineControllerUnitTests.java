@@ -34,7 +34,8 @@ public class FruitMachineControllerUnitTests {
             "NO_WIN",
             100,
             0,
-            1
+            1,
+            0
       );
 
       when(fruitMachineController.play()).thenReturn(ResponseEntity.ok(expectedResponse));
@@ -60,7 +61,8 @@ public class FruitMachineControllerUnitTests {
             "JACKPOT",
             100,
             0,
-            1
+            1,
+            0
       );
 
       when(fruitMachineController.play()).thenReturn(ResponseEntity.ok(expectedResponse));
@@ -86,7 +88,8 @@ public class FruitMachineControllerUnitTests {
             "SMALL_WIN",
             100,
             0,
-            1
+            1,
+            0
       );
 
       when(fruitMachineController.play()).thenReturn(ResponseEntity.ok(expectedResponse));

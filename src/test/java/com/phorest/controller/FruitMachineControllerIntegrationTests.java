@@ -50,7 +50,8 @@ public class FruitMachineControllerIntegrationTests {
             List.of(Colours.BLACK, Colours.WHITE, Colours.GREEN, Colours.BLACK), WinStatus.NO_WIN,
             100,
             0,
-            1
+            1,
+            0
       ));
 
       // Act
@@ -70,7 +71,8 @@ public class FruitMachineControllerIntegrationTests {
             List.of(Colours.BLACK, Colours.BLACK, Colours.BLACK, Colours.BLACK), WinStatus.JACKPOT,
             100,
             0,
-            1
+            1,
+            0
       ));
 
       // Act
@@ -90,7 +92,8 @@ public class FruitMachineControllerIntegrationTests {
             List.of(Colours.BLACK, Colours.WHITE, Colours.GREEN, Colours.YELLOW), WinStatus.FULL_HOUSE,
             100,
             0,
-            1
+            1,
+            0
       ));
 
       // Act
@@ -110,7 +113,8 @@ public class FruitMachineControllerIntegrationTests {
             List.of(Colours.BLACK, Colours.BLACK, Colours.GREEN, Colours.YELLOW), WinStatus.SMALL_WIN,
             100,
             0,
-            1
+            1,
+            0
       ));
 
       // Act
