@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(FruitMachineController.class)
-public class FruitMachineControllerTests {
+public class FruitMachineControllerUnitTests {
 
    @Autowired
    private MockMvc mockMvc;
