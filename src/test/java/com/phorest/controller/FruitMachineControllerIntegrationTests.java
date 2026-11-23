@@ -46,7 +46,12 @@ public class FruitMachineControllerIntegrationTests {
    @DisplayName("Integration Test for Fruit Machine Controller - No Win")
    void integrationTestForFruitMachineControllerNoWin() throws Exception {
       // Arrange
-      when(fruitMachineService.play()).thenReturn(new PlayResult(List.of(Colours.BLACK, Colours.WHITE, Colours.GREEN, Colours.BLACK), WinStatus.NO_WIN));
+      when(fruitMachineService.play()).thenReturn(new PlayResult(
+            List.of(Colours.BLACK, Colours.WHITE, Colours.GREEN, Colours.BLACK), WinStatus.NO_WIN,
+            100,
+            0,
+            1
+      ));
 
       // Act
       // Assert
@@ -61,7 +66,12 @@ public class FruitMachineControllerIntegrationTests {
    @DisplayName("Integration Test for Fruit Machine Controller - Jackpot")
    void integrationTestForFruitMachineControllerJackpot() throws Exception {
       // Arrange
-      when(fruitMachineService.play()).thenReturn(new PlayResult(List.of(Colours.BLACK, Colours.BLACK, Colours.BLACK, Colours.BLACK), WinStatus.JACKPOT));
+      when(fruitMachineService.play()).thenReturn(new PlayResult(
+            List.of(Colours.BLACK, Colours.BLACK, Colours.BLACK, Colours.BLACK), WinStatus.JACKPOT,
+            100,
+            0,
+            1
+      ));
 
       // Act
       // Assert
@@ -76,7 +86,12 @@ public class FruitMachineControllerIntegrationTests {
    @DisplayName("Integration Test for Fruit Machine Controller - Full House")
    void integrationTestForFruitMachineControllerFullHouse() throws Exception {
       // Arrange
-      when(fruitMachineService.play()).thenReturn(new PlayResult(List.of(Colours.BLACK, Colours.WHITE, Colours.GREEN, Colours.YELLOW), WinStatus.FULL_HOUSE));
+      when(fruitMachineService.play()).thenReturn(new PlayResult(
+            List.of(Colours.BLACK, Colours.WHITE, Colours.GREEN, Colours.YELLOW), WinStatus.FULL_HOUSE,
+            100,
+            0,
+            1
+      ));
 
       // Act
       // Assert
@@ -91,7 +106,12 @@ public class FruitMachineControllerIntegrationTests {
    @DisplayName("Integration Test for Fruit Machine Controller - Small Win")
    void integrationTestForFruitMachineControllerSmallWin() throws Exception {
       // Arrange
-      when(fruitMachineService.play()).thenReturn(new PlayResult(List.of(Colours.BLACK, Colours.BLACK, Colours.GREEN, Colours.YELLOW), WinStatus.SMALL_WIN));
+      when(fruitMachineService.play()).thenReturn(new PlayResult(
+            List.of(Colours.BLACK, Colours.BLACK, Colours.GREEN, Colours.YELLOW), WinStatus.SMALL_WIN,
+            100,
+            0,
+            1
+      ));
 
       // Act
       // Assert

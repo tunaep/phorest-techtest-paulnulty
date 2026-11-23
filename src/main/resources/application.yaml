@@ -1,3 +1,9 @@
 spring:
   application:
     name: phorest
+
+fruit-machine:
+  current-float: 100
+  num-slots: 4
+  free-plays: 0
+  spin-cost: 5

@@ -5,6 +5,7 @@ import com.phorest.model.FruitMachine;
 import com.phorest.model.PlayResult;
 import com.phorest.model.SpinResult;
 import com.phorest.model.WinStatus;
+import com.phorest.properties.FruitMachineProperties;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,10 +20,16 @@ public class FruitMachineServiceTests {
 
    private FruitMachineService fruitMachineService;
    private FruitMachine fruitMachine;
+   private FruitMachineProperties properties;
 
    @BeforeEach
    void setup() {
+      properties = mock(FruitMachineProperties.class);
+      when(properties.getNumSlots()).thenReturn(4);
+
       fruitMachine = mock(FruitMachine.class);
+      when(fruitMachine.getProperties()).thenReturn(properties);
+
       fruitMachineService = new FruitMachineService(fruitMachine);
    }
 
@@ -30,7 +37,11 @@ public class FruitMachineServiceTests {
    @DisplayName("Play Returns No Win Result If Not Small Win, Full House, or Jackpot")
    void playReturnsNoWinResultIfNotSmallWinFullHouseOrJackpot() {
       // Arrange
-      when(fruitMachine.spin(4)).thenReturn(new SpinResult(List.of(Colours.BLACK, Colours.WHITE, Colours.GREEN, Colours.BLACK)));
+      when(fruitMachine.spin()).thenReturn(new SpinResult(List.of(Colours.BLACK, Colours.WHITE, Colours.GREEN, Colours.BLACK)));
+      when(properties.getCurrentFloat()).thenReturn(100);
+      when(properties.getSpinCost()).thenReturn(1);
+      when(properties.getFreePlays()).thenReturn(0);
+
 
       // Act
       PlayResult playResult = fruitMachineService.play();
@@ -45,7 +56,7 @@ public class FruitMachineServiceTests {
    @DisplayName("Play Returns Jackpot Result If All Slots Match")
    void playReturnsJackpotResultIfAllSlotsMatch() {
       // Arrange
-      when(fruitMachine.spin(4)).thenReturn(new SpinResult(List.of(Colours.BLACK, Colours.BLACK, Colours.BLACK, Colours.BLACK)));
+      when(fruitMachine.spin()).thenReturn(new SpinResult(List.of(Colours.BLACK, Colours.BLACK, Colours.BLACK, Colours.BLACK)));
 
       // Act
       PlayResult playResult = fruitMachineService.play();
@@ -60,7 +71,7 @@ public class FruitMachineServiceTests {
    @DisplayName("Play Returns Full House Result If All Slots Are Different")
    void playReturnsFullHouseResultIfAllSlotsAreDifferent() {
       // Arrange
-      when(fruitMachine.spin(4)).thenReturn(new SpinResult(List.of(Colours.BLACK, Colours.WHITE, Colours.GREEN, Colours.YELLOW)));
+      when(fruitMachine.spin()).thenReturn(new SpinResult(List.of(Colours.BLACK, Colours.WHITE, Colours.GREEN, Colours.YELLOW)));
 
       // Act
       PlayResult playResult = fruitMachineService.play();
@@ -75,7 +86,7 @@ public class FruitMachineServiceTests {
    @DisplayName("Play Returns Small Win Result If Two or More Adjacent Slots Match")
    void playReturnsSmallWinResultIfTwoOrMoreAdjacentSlotsMatch() {
       // Arrange
-      when(fruitMachine.spin(4)).thenReturn(new SpinResult(List.of(Colours.BLACK, Colours.BLACK, Colours.GREEN, Colours.YELLOW)));
+      when(fruitMachine.spin()).thenReturn(new SpinResult(List.of(Colours.BLACK, Colours.BLACK, Colours.GREEN, Colours.YELLOW)));
 
       // Act
       PlayResult playResult = fruitMachineService.play();
@@ -85,9 +96,5 @@ public class FruitMachineServiceTests {
       assertEquals(4, playResult.slots().size());
       assertEquals(List.of(Colours.BLACK, Colours.BLACK, Colours.GREEN, Colours.YELLOW), playResult.slots());
    }
-
-
-   // Add float
-
 
 }

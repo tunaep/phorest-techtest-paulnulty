@@ -31,7 +31,10 @@ public class FruitMachineControllerUnitTests {
       // Arrange
       PlayResponse expectedResponse = new PlayResponse(
             List.of("BLACK", "WHITE", "GREEN", "YELLOW"),
-            "NO_WIN"
+            "NO_WIN",
+            100,
+            0,
+            1
       );
 
       when(fruitMachineController.play()).thenReturn(ResponseEntity.ok(expectedResponse));
@@ -54,7 +57,10 @@ public class FruitMachineControllerUnitTests {
       // Arrange
       PlayResponse expectedResponse = new PlayResponse(
             List.of("BLACK", "BLACK", "BLACK", "BLACK"),
-            "JACKPOT"
+            "JACKPOT",
+            100,
+            0,
+            1
       );
 
       when(fruitMachineController.play()).thenReturn(ResponseEntity.ok(expectedResponse));
@@ -77,7 +83,10 @@ public class FruitMachineControllerUnitTests {
       // Arrange
       PlayResponse expectedResponse = new PlayResponse(
             List.of("BLACK", "BLACK", "WHITE", "YELLOW"),
-            "SMALL_WIN"
+            "SMALL_WIN",
+            100,
+            0,
+            1
       );
 
       when(fruitMachineController.play()).thenReturn(ResponseEntity.ok(expectedResponse));
